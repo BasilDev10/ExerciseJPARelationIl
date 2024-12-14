@@ -36,18 +36,20 @@ public class TeacherService {
         teacherRepository.save(teacher);
     }
 
-    public void deleteTeacher(Integer id){
+    public void deleteTeacher(Integer id) {
         Teacher teacher = teacherRepository.findTeacherById(id);
-        if (teacher == null ) throw new ApiException("Error: teacher not found");
+        if (teacher == null) throw new ApiException("Error: teacher not found");
+
         Address address = teacher.getAddress();
-        if (address != null){
+        if (address != null) {
             teacher.setAddress(null);
-            teacherRepository.deleteById(id);
-            addressService.deleteAddress(address.getId());
-        } else teacherRepository.deleteById(id);
 
+            teacherRepository.save(teacher);
 
+          //      addressService.deleteAddress(address.getId());
+        }
 
+        teacherRepository.deleteById(id);
     }
 
 
